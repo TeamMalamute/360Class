@@ -2,7 +2,6 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.LayoutManager;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.Contest;
 import model.Entry;
@@ -25,6 +25,9 @@ import model.User;
 public class ContestantContestViewImp implements ContestantContestView {
 	
 	private static final int SUBMIT_CHOICE = 100;
+	private static final int ORIGINAL_WIDTH = 500;
+	private static final int IMAGE_BUFFER = 180;
+	private static final Dimension ORIGINAL_SIZE = new Dimension(500, 300);
 	private final JPanel myPanel;
 	private final JButton myBrowseButton;
 	private final JButton mySubmitButton;
@@ -105,15 +108,21 @@ public class ContestantContestViewImp implements ContestantContestView {
 	
 	
 	@Override
-	public void setEntryFileName() throws IOException {
+	public Dimension setEntryFileName() throws IOException {
+		Dimension theImageSize = ORIGINAL_SIZE;
 		JFileChooser jfc = new JFileChooser();
+		jfc.setFileFilter(new FileNameExtensionFilter("Image files (*.gif, *.jpeg, *.jpg, *.png)", 
+				"gif", "jpeg", "jpg", "png"));
 		if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
 		{
 			myEntryFile = jfc.getSelectedFile();
 			myEntryFilePath.setText(myEntryFile.getAbsolutePath());
+			myImagelbl.setIcon(new ImageIcon(ImageIO.read(new File(myEntryFilePath.getText()))));
+			myImagelbl.setVisible(true);
+			theImageSize = new Dimension(ORIGINAL_WIDTH, 
+					myImagelbl.getIcon().getIconHeight() + IMAGE_BUFFER);
 		}
-		myImagelbl.setIcon(new ImageIcon(ImageIO.read(new File(myEntryFilePath.getText()))));
-		myImagelbl.setVisible(true);
+		return theImageSize;		
 	}
 
 	@Override
@@ -152,17 +161,12 @@ public class ContestantContestViewImp implements ContestantContestView {
 	}
 
 	@Override
-	public void subMade(User theUser, Contest theContest) throws IOException {
+	public void subMade(String theEntryName, String theEntryFilePath) throws IOException {
 		mySubMade = true;
 		mySubmitButton.setText("Update Entry");
-		for (Entry e : theUser.getEntries()){
-			if (e.getContest() == theContest.getContestNumber())
-			{
-				myEntryText.setText(e.getEntry());
-				myEntryFilePath.setText(e.getFilePath());
-				myImagelbl.setIcon(new ImageIcon(ImageIO.read(new File(myEntryFilePath.getText()))));
-				myImagelbl.setVisible(true);
-			}
-		}		
+		myEntryText.setText(theEntryName);
+		myEntryFilePath.setText(theEntryFilePath);
+		myImagelbl.setIcon(new ImageIcon(ImageIO.read(new File(theEntryFilePath))));
+		myImagelbl.setVisible(true);	
 	}
 }

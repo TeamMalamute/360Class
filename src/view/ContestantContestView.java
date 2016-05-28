@@ -1,9 +1,9 @@
 package view;
 
+import java.awt.Dimension;
 import java.io.IOException;
 
 import javax.swing.AbstractAction;
-
 import model.Contest;
 import model.EntryDatabaseManager;
 import model.User;
@@ -20,8 +20,9 @@ public interface ContestantContestView extends Viewable {
 	public void setContestName(String theContestName);	
 	
 	/** Opening and getting input from file chooser for entry submission 
+	 * @return 
 	 * @throws IOException */
-	public void setEntryFileName() throws IOException;
+	public Dimension setEntryFileName() throws IOException;
 	
 	/** Submit Entry to Contest 
 	 * @return */
@@ -30,6 +31,6 @@ public interface ContestantContestView extends Viewable {
 
 	/** If submission has been made for contest update CCV with pertinent info. 
 	 * @throws IOException */
-	public void subMade(User theUser, Contest theContest) throws IOException;
+	public void subMade(String theEntryName, String theEntryFilePath) throws IOException;
 	
 }
