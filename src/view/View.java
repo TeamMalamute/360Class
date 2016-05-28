@@ -62,6 +62,12 @@ public class View {
 		myFrame.setVisible(true);
 	}
 	
+	public void reSize(Dimension theDimension){		
+		myFrame.setResizable(true);
+		myFrame.setSize(theDimension);
+		myFrame.setResizable(false);
+	}
+	
 	
 	/**Adds a listener for when the back button is clicked, and enables the button.*/
 	public void addBackButtonListener(Action theAction) {

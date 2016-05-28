@@ -1,13 +1,17 @@
 package controller;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -22,13 +26,18 @@ import view.View;
 import view.Viewable;
 
 /** Controls a session where a Contestant is logged in. 
- * @author Tabi*/
+ * @author Tabi
+ * @author Casey (setupEntryView method only)*/
 public class ContestantController {
 	
+	private static final Dimension ORIGINAL_SIZE = new Dimension(500, 300);
+	private static final int ORIGINAL_WIDTH = 500;
+	private static final int IMAGE_BUFFER = 180;
 	private final User myUser;
 	private final ContestDatabaseManager myContestDBManager;
 	private final EntryDatabaseManager myEntryDBManager;
 	private final View myView;
+	private Dimension myImageSize;
 	
 	/**List of all views that have been displayed to this user since this controller
 	 * was created.*/
@@ -47,6 +56,7 @@ public class ContestantController {
 	 * @param theView				
 	 */	
 	public ContestantController(User theUser, ContestDatabaseManager theContestDBManager, EntryDatabaseManager theEntryDBManager, View theView) {
+		myImageSize = ORIGINAL_SIZE;
 		myUser = theUser;
 		myContestDBManager = theContestDBManager;
 		myEntryDBManager = theEntryDBManager;
@@ -56,6 +66,7 @@ public class ContestantController {
 		setupListView();		
 	}
 	
+	@SuppressWarnings("serial")
 	private void setupBackFunctionality() {
 		myView.addBackButtonListener(new AbstractAction() {
 
@@ -101,7 +112,6 @@ public class ContestantController {
 						try {
 							setupEntryView(selected, false);
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						addToHistory(cclv);
@@ -124,7 +134,6 @@ public class ContestantController {
 						try {
 							setupEntryView(selected, true);
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						addToHistory(cclv);
@@ -170,7 +179,10 @@ public class ContestantController {
 	}
 	
 	
+	@SuppressWarnings("serial")
 	private void setupEntryView(Contest theContest, Boolean theSubMade) throws IOException {
+		String theEntryName = null;
+		String theEntryFilePath = null;
 		ContestantContestView ccv = myView.getContestantContestView();
 		ccv.setContestName(theContest.getName());
 		ccv.addBrowseButtonListener(new AbstractAction() {
@@ -178,9 +190,9 @@ public class ContestantController {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ccv.setEntryFileName();
+					myImageSize = ccv.setEntryFileName();
+					if (!myImageSize.equals(ORIGINAL_SIZE)) myView.reSize(myImageSize);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -193,12 +205,26 @@ public class ContestantController {
 				Boolean submitSuccess = ccv.submitNewEntry(myUser, myEntryDBManager, theContest);
 				if (submitSuccess == true){
 					setupListView();
+					if (!myImageSize.equals(ORIGINAL_SIZE)) myView.reSize(ORIGINAL_SIZE);
 				}
 			}
 			
 		});
-		if (theSubMade) ccv.subMade(myUser, theContest);
 		myView.showPage(ccv);
+		if (theSubMade) {
+			for (Entry e : myUser.getEntries()){
+				if (e.getContest() == theContest.getContestNumber())
+				{
+					theEntryName = e.getEntry();
+					theEntryFilePath = e.getFilePath();
+				}
+			}	
+			ImageIcon theImageIcon = new ImageIcon(ImageIO.read(new File(theEntryFilePath)));
+			myImageSize = new Dimension(ORIGINAL_WIDTH,
+					theImageIcon.getIconHeight() + IMAGE_BUFFER);
+			if (!myImageSize.equals(ORIGINAL_SIZE)) myView.reSize(myImageSize);
+			ccv.subMade(theEntryName, theEntryFilePath);
+		}
 	}
 	
 }
