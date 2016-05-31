@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class AdminController {
 	}
 	
 	private Contest[] allContests() {
-		List<Contest> contests = myContestDBManager.getAllContests();
+		List<Contest> contests = myContestDBManager.getAllItems();
 		return contests.toArray(new Contest[contests.size()]);
 	}
 	
@@ -94,7 +95,11 @@ public class AdminController {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				onAddingContest(theForm, theListView);
+				try {
+					onAddingContest(theForm, theListView);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 			}
 			
 		});
@@ -107,7 +112,7 @@ public class AdminController {
 	 * To be called when the user submits a new contest form.
 	 * Adds new contest to db and updates list view.
 	 */
-	private void onAddingContest(NewContestForm theForm, AdminContestListView theListView) {
+	private void onAddingContest(NewContestForm theForm, AdminContestListView theListView) throws FileNotFoundException {
 		String[] formInfo = theForm.getFormInfo();
 		if (formInfo.length >= 4 && addContest(formInfo[0], formInfo[1], formInfo[2], formInfo[3])) {
 			theForm.setMessage("Contest added!");
@@ -124,7 +129,7 @@ public class AdminController {
 	 * adds contest to db and returns true.
 	 * @return
 	 */
-	private boolean addContest(String name, String description, String startDate, String endDate) {
+	private boolean addContest(String name, String description, String startDate, String endDate) throws FileNotFoundException {
 		boolean added = false;
 		if (name != null && !name.isEmpty() && description != null && !description.isEmpty() && startDate != null
 			&& !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {

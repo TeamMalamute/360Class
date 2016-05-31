@@ -62,8 +62,9 @@ public class ContestantContestViewImp implements ContestantContestView {
 		myEntryNamelbl = new JLabel("Entry Name");
 		myContestName = new JLabel();
 		myImagelbl = new JLabel();
-		mySpacer1 = new JLabel("                                                                                     ");
-		mySpacer2 = new JLabel("                 ");		
+		mySpacer1 = new JLabel("                                                 " +
+				               "                                                    ");
+		mySpacer2 = new JLabel("                 ");
 		mySpacer3 = new JLabel("                      ");
 		myEntryFilePath = new JTextField(25);		
 		myEntryText = new JTextField(25);
@@ -189,7 +190,7 @@ public class ContestantContestViewImp implements ContestantContestView {
 				}
 			}
 			else{
-				Entry e = new Entry(theEntryDatabase.getTotalEntries() + 1, 
+				Entry e = new Entry(theEntryDatabase.getItemCount() + 1,
 					theUser.getCardNumber(), myEntryFilePath.getText(), 
 					theContest.getContestNumber(), myEntryText.getText());
 			

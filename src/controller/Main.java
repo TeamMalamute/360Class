@@ -53,11 +53,11 @@ public class Main {
     	/* =======determine lists========= */    	
     	
     	// store ref to all contests
-    	Map<Integer,Contest> allContests = contestDatabaseManager.getContestMap();
+    	Map<Integer,Contest> allContests = contestDatabaseManager.getMap();
     	
     	// Put all contests into contestsNotSubmtitedTo
     	List<Contest> contestsNotSubmittedTo = new ArrayList<Contest>();
-    	contestsNotSubmittedTo.addAll(contestDatabaseManager.getContestMap().values());    	
+    	contestsNotSubmittedTo.addAll(contestDatabaseManager.getMap().values());
 
 		// get all of User's entries
     	List<Entry> testUsersEntries = testUser.getEntries();
@@ -135,7 +135,7 @@ public class Main {
         UserDatabaseManager userDatabaseManager = new UserDatabaseManager(userFile,entryModel);
         userDatabaseManager.readCsvFile();
         System.out.println("Users");
-        Map<Integer, User> userMap = userDatabaseManager.getUserMap();
+        Map<Integer, User> userMap = userDatabaseManager.getMap();
         System.out.println("Contestant or Admin " + userMap);
         System.out.println("Get the user that belongs to cardnumber 3 " + userMap.get(3));
 
@@ -145,7 +145,7 @@ public class Main {
         ContestDatabaseManager contestDatabaseManager = new ContestDatabaseManager(contestFile);
         contestDatabaseManager.readCsvFile();
         System.out.println("Contests");
-        System.out.println(contestDatabaseManager.getContestMap());
+        System.out.println(contestDatabaseManager.getMap());
 
         System.out.println("\n\n");
 
@@ -164,7 +164,7 @@ public class Main {
         //ADDING A NEW ENTRY!!!!!!!!!!!!!!!!!!!!
         //how to add a new entry
         //USE ADD ENTRY FOR THE USER ONLY
-        int totalEntries = entryModel.getTotalEntries();
+        int totalEntries = entryModel.getItemCount();
         Entry entry = new Entry(totalEntries + 1, findUser.getCardNumber(),"Path",2,"Name");
         System.out.println(findUser.getName());
         System.out.println(findUser.getEntries());

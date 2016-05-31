@@ -159,13 +159,13 @@ public class ContestantController {
 		allNotSubmittedTo.clear();
     	
     	// store ref to all contests
-    	Map<Integer,Contest> allContests = myContestDBManager.getContestMap();    	
+    	Map<Integer,Contest> allContests = myContestDBManager.getMap();
 
 		// get all of User's entries
     	List<Entry> testUsersEntries = myUser.getEntries();
     	
     	// Put all contests into contestsNotSubmtitedTo
-    	allNotSubmittedTo.addAll(myContestDBManager.getContestMap().values());   
+    	allNotSubmittedTo.addAll(myContestDBManager.getMap().values());
     	
     	// add all contests whose key matches that in the User's entries to list, removing
     	// from not submitted to list.

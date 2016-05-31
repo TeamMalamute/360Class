@@ -38,14 +38,14 @@ public class UserTest {
 	public void setUp() throws Exception {
 		myContestDB = new ContestDatabaseManager(CONTEST_FILE);
 		myContestDB.readCsvFile();
-		myContest = myContestDB.getAllContests().get(1);
+		myContest = myContestDB.getAllItems().get(1);
 		
         myEntryDB = new EntryDatabaseManager(ENTRY_FILE);
         myEntryDB.readCsvFile();
         
         myUserDB = new UserDatabaseManager(USER_FILE, myEntryDB);
         myUserDB.readCsvFile();
-        myUser = myUserDB.getUserMap().get(1);
+        myUser = myUserDB.getMap().get(1);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class UserTest {
 		assertEquals(theEntry, myUser.getEntries().get(myUser.getEntries().size() - 1));
 		
 		// Check if myEntry was added to myEntryDB
-		assertEquals(theEntry, myEntryDB.getEntryMap().get(myEntryDB.getTotalEntries()));
+		assertEquals(theEntry, myEntryDB.getMap().get(myEntryDB.getItemCount()));
 	}
 
 	/**

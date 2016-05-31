@@ -104,7 +104,7 @@ public class JudgeController {
 	}
 	
 	private Contest[] allContests() {
-		List<Contest> contests = myContestDBManager.getAllContests();
+		List<Contest> contests = myContestDBManager.getAllItems();
 		return contests.toArray(new Contest[contests.size()]);
 	}
 	

@@ -40,11 +40,11 @@ public abstract class DatabaseManager<T> {
         myCounter = 0;
     }
     
-    public List<T> getAll() {
+    public List<T> getAllItems() {
         return myItems;
     }
     
-    public int getCount() {
+    public int getItemCount() {
     	return myCounter;
     }
     
