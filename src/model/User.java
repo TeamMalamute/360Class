@@ -2,6 +2,7 @@ package model;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -82,7 +83,7 @@ public class User {
         return entries;
     }
 
-
+    @Override
     public String toString() {
         return  "["+name + ", " + cardNumber + ", " + age + ", " + loginCredential + ", " + type+"]" ;
     }

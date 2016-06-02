@@ -212,12 +212,21 @@ public class ContestantContestViewImp implements ContestantContestView {
 	public void subMade(User theUser, Contest theContest) throws IOException {
 		mySubMade = true;
 		mySubmitButton.setText("Update Entry");
+		File theFile = new File(myEntryFilePath.getText());
 		for (Entry e : theUser.getEntries()){
 			if (e.getContest() == theContest.getContestNumber())
 			{
 				myEntryText.setText(e.getEntryName());
 				myEntryFilePath.setText(e.getFilePath());
-				myImagelbl.setIcon(new ImageIcon(ImageIO.read(new File(myEntryFilePath.getText()))));
+				try {
+					myImagelbl.setIcon(new ImageIcon(ImageIO.read(new File(myEntryFilePath.getText()))));
+				}
+				catch(IOException n) {
+					JOptionPane.showMessageDialog(myPanel,
+							"Error Loading File",
+							"Error",
+							JOptionPane.ERROR_MESSAGE);
+			}
 				myScrollPane.setVisible(true);
 				myImagelbl.setVisible(true);
 				myPanel.revalidate();

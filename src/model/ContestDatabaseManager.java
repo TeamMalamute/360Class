@@ -34,7 +34,6 @@ public class ContestDatabaseManager extends DatabaseManager<Contest>{
                               String endDate) throws Exception {
         if (contestNameIsUnique(contestName)) {
             int contestCounter = super.getItemCount();
-            super.updateCount();
             Contest contest = new Contest(++contestCounter, contestName, contestDescription, startDate, endDate);
             super.getMap().put(contest.getContestNumber(), contest);
             super.getAllItems().add(contest);

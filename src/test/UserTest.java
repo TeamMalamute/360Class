@@ -24,7 +24,7 @@ import model.UserDatabaseManager;
 public class UserTest {
 	private static final String USER_FILE = "User.csv";
 	private static final String CONTEST_FILE = "Contests.csv";
-	private static final String ENTRY_FILE = "Entries.csv";
+	private static final String ENTRY_FILE = "TestEntries.csv";
 	private ContestDatabaseManager myContestDB;
 	private EntryDatabaseManager myEntryDB;
 	private UserDatabaseManager myUserDB;
@@ -54,20 +54,22 @@ public class UserTest {
 	 */
 	@Test
 	public void testAddEntry() throws Exception {
-		Entry theEntry = new Entry(0, 
+		// Size of myEntryDB
+		int totalEntriesUser = myUser.getEntries().size();
+		Entry theEntry = new Entry(totalEntriesUser + 1,
 				myUser.getCardNumber(), "Path Test", 
 				myContest.getContestNumber(), "Name Test");
-		int total = myUser.getEntries().size();
+
 		myUser.addEntry(theEntry, myEntryDB);
 
 		// Check if entries size increased
-		assertEquals(total + 1, myUser.getEntries().size());
+		assertEquals(totalEntriesUser + 1, myUser.getEntries().size());
 		
 		// Check if theEntry was added to myUser entries list
 		assertEquals(theEntry, myUser.getEntries().get(myUser.getEntries().size() - 1));
 		
 		// Check if theEntry was added to myEntryDB Map
-		assertEquals(theEntry, myEntryDB.getMap().get(myEntryDB.getItemCount()));
+		assertEquals(theEntry, myEntryDB.getMap().get(theEntry.getEntryNumber()));
 	}
 
 	/**

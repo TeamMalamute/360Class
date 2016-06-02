@@ -134,7 +134,7 @@ public class EntryDatabaseManagerTest {
     public void testWriteCsvFile1() throws Exception {
         // Test No File Found
         EntryDatabaseManager theEntryDB = new EntryDatabaseManager("Not a file name");
-        theEntryDB.readCsvFile();
+        theEntryDB.writeCsvFile();
     }
 
     /**
@@ -145,7 +145,7 @@ public class EntryDatabaseManagerTest {
     public void testWriteCsvFile2() throws Exception {
         // Test Bad File
         EntryDatabaseManager theEntryDB = new EntryDatabaseManager("superman.jpeg");
-        theEntryDB.readCsvFile();
+        theEntryDB.writeCsvFile();
     }
 
     /**

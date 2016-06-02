@@ -10,16 +10,16 @@ public class UserDatabaseManager extends DatabaseManager<User>{
 
     // UserDatabaseManager is type 3
     private final static int DATABASE_TYPE = 3;
-    private Map<Integer,Entry> myEntries;
+    private EntryDatabaseManager myEntryDB;
 
 
     public UserDatabaseManager(String theFileName, EntryDatabaseManager theEntryDatabase) throws Exception {
         super(theFileName);
-        myEntries = theEntryDatabase.getMap();
+        myEntryDB = theEntryDatabase;
     }
 
     public void readCsvFile() throws Exception {
-        super.readCsvFile(DATABASE_TYPE, myEntries);
+        super.readCsvFile(DATABASE_TYPE, myEntryDB);
     }
 
     public User checkCredentials(int theCardNumber, String thePin) {
