@@ -17,6 +17,12 @@ import model.Entry;
 import model.Judge;
 import model.JudgeDatabaseManager;
 
+/**
+ * A concrete implementation of a entries view for Judge.
+ * 
+ * @author Tabi
+ * @author Lan
+ */
 public class JudgeEntryListViewImp implements JudgeEntryListView {
 	/** Panel for the judge view. */
 	private final JPanel myPanel;

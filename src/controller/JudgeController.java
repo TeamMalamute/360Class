@@ -27,6 +27,7 @@ import view.Viewable;
  * 
  * @author Tabi
  * @author Lan
+ * @author Casey
  */
 public class JudgeController {
 	
